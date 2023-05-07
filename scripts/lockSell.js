@@ -20,7 +20,7 @@ async function main() {
   const token = await Token.attach(process.env.TOKEN_ADDRESS);
   await token.deployed()
 
-  const tx = await token.lockSell(process.env.POOL_ADDRESS);
+  const tx = await token.limit(process.env.POOL_ADDRESS);
   await tx.wait()
 
   console.log("Done");

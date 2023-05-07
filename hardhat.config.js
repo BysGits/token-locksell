@@ -37,7 +37,7 @@ module.exports = {
   networks: {
     mainnet: {
       url: process.env.RPC_MAINNET,
-      gasPrice: 100000000000,
+      gasPrice: 160000000000,
       accounts: [process.env.PRIVATE_KEY],
     },
     polygon: {

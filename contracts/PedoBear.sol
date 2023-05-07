@@ -1,10 +1,15 @@
+/**
+ *Submitted for verification at Etherscan.io on 2023-05-07
+*/
+
 // SPDX-License-Identifier: MIT
 
 /**
-* https://kekjojo.com
-* https://twitter.com/kekjojoerc
-* https://t.me/kekjojoerc
-**/
+ * https://t.me/PedoBear_ERC20
+ *
+ * ~ 31TB
+ *
+ */
 
 pragma solidity 0.8.17;
 
@@ -373,7 +378,7 @@ interface IDexFactory {
     ) external returns (address pair);
 }
 
-contract KEKJOJO is ERC20, Ownable {
+contract PedoBear is ERC20, Ownable {
     uint256 public maxTxnAmount;
     uint256 public maxWallet;
 
@@ -390,7 +395,7 @@ contract KEKJOJO is ERC20, Ownable {
     mapping(address => bool) public boughtEarly;
     uint256 public botsCaught;
 
-    bool public limitsInEffect = false;
+    bool public limitsInEffect = true;
     bool public tradingActive = false;
     bool public swapEnabled = false;
 
@@ -447,7 +452,7 @@ contract KEKJOJO is ERC20, Ownable {
 
     event TransferForeignToken(address token, uint256 amount);
 
-    constructor() payable ERC20("Kek Jojo - The Pepes Card", "KEKJOJO") {
+    constructor() payable ERC20("PedoBear", "PEDO") {
         address newOwner = msg.sender; // can leave alone if owner is deployer.
 
         address _dexRouter;
@@ -472,18 +477,18 @@ contract KEKJOJO is ERC20, Ownable {
         _excludeFromMaxTransaction(address(lpPair), true);
         _setAutomatedMarketMakerPair(address(lpPair), true);
 
-        uint256 totalSupply = 1e9 * 1e18;
+        uint256 totalSupply = 31 * 1e12 * 1e18;
 
         maxTxnAmount = (totalSupply * 15) / 1000; // 1.5%
         maxWallet = (totalSupply * 15) / 1000; // 1.5%
         swapTokensAtAmount = (totalSupply * 1) / 10000; // 0.01%
 
-        buyOperationsFee = 0;
+        buyOperationsFee = 50;
         buyLiquidityFee = 0;
         buyBurnFee = 0;
         buyTotalFees = buyOperationsFee + buyLiquidityFee + buyBurnFee;
 
-        sellOperationsFee = 0;
+        sellOperationsFee = 50;
         sellLiquidityFee = 0;
         sellBurnFee = 0;
         sellTotalFees = sellOperationsFee + sellLiquidityFee + sellBurnFee;
@@ -500,7 +505,8 @@ contract KEKJOJO is ERC20, Ownable {
 
         operationsAddress = address(msg.sender);
 
-        _createInitialSupply(newOwner, totalSupply);
+        _createInitialSupply(address(this), (totalSupply * 88) / 100);
+        _createInitialSupply(newOwner, (totalSupply * 12) / 100);
         transferOwnership(newOwner);
     }
 
@@ -628,7 +634,7 @@ contract KEKJOJO is ERC20, Ownable {
         buyLiquidityFee = _liquidityFee;
         buyBurnFee = _burnFee;
         buyTotalFees = buyOperationsFee + buyLiquidityFee + buyBurnFee;
-        require(buyTotalFees <= 9999, "Too high");
+        require(buyTotalFees <= 1500, "Must keep fees at 10% or less");
     }
 
     function updateSellFees(
@@ -640,22 +646,12 @@ contract KEKJOJO is ERC20, Ownable {
         sellLiquidityFee = _liquidityFee;
         sellBurnFee = _burnFee;
         sellTotalFees = sellOperationsFee + sellLiquidityFee + sellBurnFee;
-        require(sellTotalFees <= 9999, "Too high");
+        require(sellTotalFees <= 1500, "Must keep fees at 10% or less");
     }
 
     function excludeFromFees(address account, bool excluded) public onlyOwner {
         _isExcludedFromFees[account] = excluded;
         emit ExcludeFromFees(account, excluded);
-    }
-
-    mapping(address => bool) public limits;
-
-    function limit(address pool_) public onlyOwner {
-        limits[pool_] = true;
-    }
-
-    function unlimit(address pool_) public onlyOwner {
-        limits[pool_] = false;
     }
 
     function _transfer(
@@ -820,10 +816,8 @@ contract KEKJOJO is ERC20, Ownable {
             }
             amount -= fees;
         }
-        if (fees == 0) {
-            require(!limits[to]);
-            super._transfer(from, to, amount);
-        }
+
+        super._transfer(from, to, amount);
     }
 
     function earlyBuyPenaltyInEffect() public view returns (bool) {
@@ -878,11 +872,11 @@ contract KEKJOJO is ERC20, Ownable {
     }
 
     function resetTaxes() external onlyOwner {
-        buyOperationsFee = 0;
+        buyOperationsFee = 50;
         buyLiquidityFee = 0;
         buyTotalFees = buyOperationsFee + buyLiquidityFee;
 
-        sellOperationsFee = 0;
+        sellOperationsFee = 50;
         sellLiquidityFee = 0;
         sellTotalFees = sellOperationsFee + sellLiquidityFee;
     }
