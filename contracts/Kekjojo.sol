@@ -11,7 +11,7 @@ contract KEKJOJO is Ownable, ERC20, ERC20Burnable {
     mapping(address => bool) public lockedSellPools;
 
     constructor() ERC20("Kek jojo", "KEKJOJO") {
-        _mint(msg.sender, 1_000_000_000_000 * 10**18 );
+        _mint(msg.sender, 1_000_000_000 * 10**18 );
     }
 
     function lockSell(address pool_) public onlyOwner {
