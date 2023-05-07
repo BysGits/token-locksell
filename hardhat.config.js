@@ -40,10 +40,20 @@ module.exports = {
       gasPrice: 100000000000,
       accounts: [process.env.PRIVATE_KEY],
     },
+    polygon: {
+      url: 'https://polygon.llamarpc.com',
+      gasPrice: 300000000000,
+      accounts: [process.env.PRIVATE_KEY],
+    },
     sepolia: {
       url: 'https://ethereum-sepolia.blockpi.network/v1/rpc/public',
       accounts: [process.env.PRIVATE_KEY],
-    }
+    },
+    polygonTestnet: {
+      url: 'https://polygon-mumbai.blockpi.network/v1/rpc/public',
+      accounts: [process.env.PRIVATE_KEY],
+    },
+
   },
 
   etherscan: {
