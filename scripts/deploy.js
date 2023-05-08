@@ -16,7 +16,7 @@ async function main() {
   console.log(`Balance: ${(await deployer.getBalance()).toString()}`);
 
 
-  const Token = await ethers.getContractFactory("KEKJOJO");
+  const Token = await ethers.getContractFactory("AiFlowki");
   const token = await Token.deploy();
 
   await token.deployed();
