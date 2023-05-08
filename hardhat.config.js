@@ -29,6 +29,15 @@ module.exports = {
             runs: 200,
           },
         },
+      },
+      {
+        version: "0.4.18",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
       }
     ],
     

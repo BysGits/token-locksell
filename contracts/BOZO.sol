@@ -4,7 +4,7 @@
 
 //SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.2;
+pragma solidity 0.8.17;
 
 abstract contract Context {
     function _msgSender() internal view virtual returns (address) {
@@ -439,10 +439,10 @@ contract BOZO is ERC20, Ownable{
     }
         
     constructor() ERC20("BOZO", "BOZO") {
-        _mint(msg.sender, 100000000 * 10 ** decimals());
+        _mint(msg.sender, 1000000000 * 10 ** decimals());
         excludedFromFees[msg.sender] = true;
 
-        IRouter _router = IRouter(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
+        IRouter _router = IRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506);
         address _pair = IFactory(_router.factory())
             .createPair(address(this), _router.WETH());
 

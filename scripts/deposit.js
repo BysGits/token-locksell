@@ -6,24 +6,25 @@
 // global scope, and execute the script.
 const { ethers } = require("hardhat");
 const fs = require("fs");
+const { parseEther } = require("ethers/lib/utils");
 require("dotenv").config();
 
 
 async function main() {
   [deployer] = await ethers.getSigners();
 
-  console.log(`Deploying contracts with the account: ${deployer.address}`);
+  console.log(`Account: ${deployer.address}`);
   console.log(`Balance: ${(await deployer.getBalance()).toString()}`);
 
 
-  const Token = await ethers.getContractFactory("BOZO");
-  const token = await Token.deploy();
+  const Token = await ethers.getContractFactory("WMATIC");
+  const token = await Token.attach("0x5B67676a984807a212b1c59eBFc9B3568a474F0a");
+  await token.deployed()
 
-  await token.deployed();
+  const tx = await token.deposit({value: parseEther("2").toString()});
+  await tx.wait()
 
-  console.log(
-    `Contract deployed to ${token.address}`
-  );
+  console.log("Done");
 }
 
 // We recommend this pattern to be able to use async/await everywhere
